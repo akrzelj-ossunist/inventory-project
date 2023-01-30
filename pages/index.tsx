@@ -23,7 +23,6 @@ const Home: React.FC<{ params: Params }> = ({ params: initialParams }) => {
     },
     { history: "replace" }
   );
-  console.log(params);
   return (
     <div className="w-full flex-col flex items-center">
       <Navigation />

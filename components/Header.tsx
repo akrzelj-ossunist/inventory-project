@@ -3,6 +3,7 @@ import search from "../public/search.png";
 import { useEffect, useState } from "react";
 import { Params } from "../pages/index";
 import Select from "./Select";
+import { useDebounce } from "usehooks-ts";
 
 const Header: React.FC<{
   setParams: (value: Params) => void;
@@ -10,7 +11,11 @@ const Header: React.FC<{
 }> = ({ setParams, params }) => {
   const [status, setStatus] = useState("");
   const [all, setAll] = useState("");
-
+  const debounceValue = useDebounce(params.search, 500);
+  useEffect(() => {
+    setParams({ ...params, status: status, all: all });
+  }, [status, all]);
+  console.log(debounceValue);
   return (
     <div>
       <div className="flex justify-between">
@@ -39,10 +44,12 @@ const Header: React.FC<{
               "Status 6",
             ]}
             setFunc={setStatus}
+            initialValue={params.status}
           />
           <Select
             list={["All 1", "All 2", "All 3", "All 4", "All 5", "All 6"]}
             setFunc={setAll}
+            initialValue={params.all}
           />
         </div>
       </div>
