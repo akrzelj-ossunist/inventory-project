@@ -2,6 +2,7 @@ import Image from "next/image";
 import upArrow from "../public/up-arrow.png";
 import downArrow from "../public/down-arrow.png";
 import { useEffect, useRef, useState } from "react";
+import checkmark from "../public/checkmark.png";
 
 const Select: React.FC<{
   list: string[];
@@ -35,21 +36,42 @@ const Select: React.FC<{
         <p>{selectValue}</p>
       </div>
       <div
-        className={`absolute bg-white w-full py-1 pl-1 rounded-md shadow-xl ${
+        className={`absolute bg-white w-full py-1 px-1 rounded-md shadow-xl ${
           !dropDowns && "hidden"
         }`}
       >
-        {list.map((el) => (
-          <p
-            className="pl-1 py-2"
-            onClick={() => {
-              setDropDowns(false);
-              setSelectValue(el);
-            }}
-          >
-            {el}
-          </p>
-        ))}
+        {list.map((el) => {
+          if (el === selectValue)
+            return (
+              <div className="relative">
+                <Image
+                  src={checkmark}
+                  alt="checkmark"
+                  className="w-4 h-4 absolute right-3 top-3"
+                />
+                <p
+                  className="px-1 py-2 bg-gray-200 rounded-md"
+                  onClick={() => {
+                    setDropDowns(false);
+                    setSelectValue(el);
+                  }}
+                >
+                  {el}
+                </p>
+              </div>
+            );
+          return (
+            <p
+              className="px-1 py-2 hover:bg-gray-200 rounded-md"
+              onClick={() => {
+                setDropDowns(false);
+                setSelectValue(el);
+              }}
+            >
+              {el}
+            </p>
+          );
+        })}
       </div>
     </div>
   );
