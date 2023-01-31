@@ -6,6 +6,8 @@ import { useState } from "react";
 import DeleteTask from "../components/DeleteTask";
 import Modal from "@/components/Modal";
 import Navigation from "@/components/Navigation";
+import EditSideNav from "@/components/EditSideNav";
+import Activity from "@/components/Activity";
 
 export interface Params {
   search: string;
@@ -15,6 +17,8 @@ export interface Params {
 
 const Home: React.FC<{ params: Params }> = ({ params: initialParams }) => {
   const [modal, setModal] = useState(false);
+  const [sideNavView, setSideNavView] = useState(false);
+  const [page, setPage] = useState("Items");
   const [params, setParams] = useQueryStates(
     {
       search: queryTypes.string.withDefault(initialParams.search),
@@ -25,15 +29,29 @@ const Home: React.FC<{ params: Params }> = ({ params: initialParams }) => {
   );
   return (
     <div className="w-full flex-col flex items-center">
-      <Navigation />
+      <Navigation setPage={setPage} page={page} />
       <div className="w-[70%] mt-[5%]">
+        {sideNavView && (
+          <Modal>
+            <EditSideNav setSideNavView={setSideNavView} />
+          </Modal>
+        )}
         {modal && (
           <Modal>
             <DeleteTask setModal={setModal} />
           </Modal>
         )}
-        <Header setParams={setParams} params={params} />
-        <DataTable setModal={setModal} />
+        {page === "Items" && (
+          <>
+            <Header setParams={setParams} params={params} />
+            <DataTable setModal={setModal} setSideNavView={setSideNavView} />
+          </>
+        )}
+        {page === "Activity" && (
+          <>
+            <Activity />
+          </>
+        )}
       </div>
     </div>
   );

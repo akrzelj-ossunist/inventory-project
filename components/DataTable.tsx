@@ -2,9 +2,10 @@ import { useMemo } from "react";
 import { tableData } from "@/data";
 import { useTable } from "react-table";
 
-const DataTable: React.FC<{ setModal: (value: boolean) => void }> = ({
-  setModal,
-}) => {
+const DataTable: React.FC<{
+  setModal: (value: boolean) => void;
+  setSideNavView: (value: boolean) => void;
+}> = ({ setModal, setSideNavView }) => {
   const data = useMemo(() => tableData, [tableData]);
 
   const columns = useMemo(
@@ -86,7 +87,10 @@ const DataTable: React.FC<{ setModal: (value: boolean) => void }> = ({
                         {...cell.getCellProps()}
                         className="py-4 flex w-full justify-end pr-10"
                       >
-                        <button className="font-semibold text-blue-600">
+                        <button
+                          className="font-semibold text-blue-600"
+                          onClick={() => setSideNavView(true)}
+                        >
                           Edit
                         </button>
                         <button
