@@ -13,41 +13,46 @@ export interface Params {
   search: string;
   status: string;
   all: string;
+  page: string;
 }
 
 const Home: React.FC<{ params: Params }> = ({ params: initialParams }) => {
   const [modal, setModal] = useState(false);
   const [sideNavView, setSideNavView] = useState(false);
-  const [page, setPage] = useState("Items");
   const [params, setParams] = useQueryStates(
     {
       search: queryTypes.string.withDefault(initialParams.search),
       status: queryTypes.string.withDefault(initialParams.status),
       all: queryTypes.string.withDefault(initialParams.all),
+      page: queryTypes.string.withDefault(initialParams.page),
     },
     { history: "replace" }
   );
   return (
     <div className="w-full flex-col flex items-center">
-      <Navigation setPage={setPage} page={page} />
-      <div className="w-[70%] mt-[5%]">
-        {sideNavView && (
-          <Modal>
-            <EditSideNav setSideNavView={setSideNavView} />
-          </Modal>
-        )}
-        {modal && (
-          <Modal>
-            <DeleteTask setModal={setModal} />
-          </Modal>
-        )}
-        {page === "Items" && (
-          <>
-            <Header setParams={setParams} params={params} />
-            <DataTable setModal={setModal} setSideNavView={setSideNavView} />
-          </>
-        )}
-        {page === "Activity" && (
+      <Navigation setParams={setParams} params={params} />
+      {params.page === "Items" && (
+        <div className="w-[70%] mt-[5%]">
+          {sideNavView && (
+            <Modal>
+              <></>
+            </Modal>
+          )}
+          <EditSideNav
+            setSideNavView={setSideNavView}
+            sideNavView={sideNavView}
+          />
+          {modal && (
+            <Modal>
+              <DeleteTask setModal={setModal} />
+            </Modal>
+          )}
+          <Header setParams={setParams} params={params} />
+          <DataTable setModal={setModal} setSideNavView={setSideNavView} />
+        </div>
+      )}
+      <div className="w-[50%] mt-[5%]">
+        {params.page === "Activity" && (
           <>
             <Activity />
           </>
@@ -61,9 +66,10 @@ export default Home;
 
 export const getServerSideProps: GetServerSideProps = async (context) => {
   const params = {
-    search: context.query.search || "",
-    status: context.query.status || "",
-    all: context.query.all || "",
+    search: context.query.search || null,
+    status: context.query.status || null,
+    all: context.query.all || null,
+    page: context.query.page || "Items",
   };
   return {
     props: { params },

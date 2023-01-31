@@ -16,7 +16,6 @@ const Header: React.FC<{
   useEffect(() => {
     setParams({ ...params, status: status, all: all });
   }, [status, all]);
-  console.log(debounceValue);
   return (
     <div>
       <div className="flex justify-between">

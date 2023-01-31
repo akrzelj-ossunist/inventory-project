@@ -63,7 +63,6 @@ export const CustomSelect: React.FC<any> = ({
         width: "100% !important",
         borderWidth: "1px !important",
         borderRadius: "8px !important",
-
         borderColor: "#DADCDF",
         "&:focus": {
           borderColor: "#302e2c",
@@ -235,7 +234,7 @@ export const CustomSelect: React.FC<any> = ({
   return (
     <div
       className={`${
-        variant === "ghostBig" || variant === "ghostSmall" ? "" : "w-full mb-6"
+        variant === "ghostBig" || variant === "ghostSmall" ? "" : "w-full"
       }  ${isFocused ? "isFocused" : ""} ${errors ? "isInvalid" : ""}`}
       onFocus={() => setIsFocused(true)}
       onBlur={() => setIsFocused(false)}

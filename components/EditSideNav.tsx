@@ -15,9 +15,10 @@ interface editForm {
   description: string;
 }
 
-const EditSideNav: React.FC<{ setSideNavView: (value: boolean) => void }> = ({
-  setSideNavView,
-}) => {
+const EditSideNav: React.FC<{
+  setSideNavView: (value: boolean) => void;
+  sideNavView: boolean;
+}> = ({ setSideNavView, sideNavView }) => {
   const editValues: editForm = {
     itemNumber: "",
     title: "",
@@ -51,8 +52,12 @@ const EditSideNav: React.FC<{ setSideNavView: (value: boolean) => void }> = ({
   });
 
   return (
-    <div className="w-full flex justify-end">
-      <div className="w-[40%] h-[100vh] bg-white rounded-l-2xl overflow-y-auto">
+    <div className="w-full flex justify-end relative">
+      <div
+        className={`w-[40%] h-[100vh] bg-white rounded-l-2xl overflow-y-auto fixed top-0 right-0 z-50 ${
+          sideNavView ? "translate-x-0" : "translate-x-full"
+        } ease-in-out duration-300`}
+      >
         <div className="m-10">
           <div className="flex justify-between">
             <p className="font-bold text-2xl">Add item</p>
