@@ -59,7 +59,7 @@ export const CustomSelect: React.FC<any> = ({
       container: (provided: any) => ({
         ...provided,
         display: "flex",
-        height: "50px",
+        height: rest.height || "50px",
         width: "100% !important",
         borderWidth: "1px !important",
         borderRadius: "8px !important",
@@ -196,7 +196,7 @@ export const CustomSelect: React.FC<any> = ({
         top: "auto",
         transform: "none",
         fontWeight: variant !== "ghostSmall" ? 700 : 400,
-        height: "auto",
+        height: rest.height || "auto",
         alignItems: "center",
         margin: "0",
         //truncate
@@ -207,7 +207,7 @@ export const CustomSelect: React.FC<any> = ({
       }),
       valueContainer: (provided: any) => ({
         ...provided,
-        height: "100%",
+        height: rest.height || "100%",
         padding: "0 !important",
       }),
     },
@@ -234,7 +234,9 @@ export const CustomSelect: React.FC<any> = ({
   return (
     <div
       className={`${
-        variant === "ghostBig" || variant === "ghostSmall" ? "" : "w-full"
+        variant === "ghostBig" || variant === "ghostSmall"
+          ? ""
+          : "w-full h-[35px] border-b-2 border-gray-400 rounded-b-md z-30"
       }  ${isFocused ? "isFocused" : ""} ${errors ? "isInvalid" : ""}`}
       onFocus={() => setIsFocused(true)}
       onBlur={() => setIsFocused(false)}

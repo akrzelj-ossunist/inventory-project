@@ -2,8 +2,9 @@ import { Field, Form, Formik } from "formik";
 import Image from "next/image";
 import * as yup from "yup";
 import save from "../public/save.png";
-import { useEffect, useRef } from "react";
 import { CustomSelect } from "./CustomSelectFeedback";
+import ImageDropzone from "./ImageDropzone";
+import { useEffect, useRef } from "react";
 
 interface editForm {
   itemNumber: string;
@@ -159,7 +160,7 @@ const EditSideNav: React.FC<{
                       </label>
                     )}
                   </div>
-                  <div className="flex flex-col m-5 ml-0">
+                  <div className="flex flex-col m-5 mb-10 ml-0">
                     <div className="flex">
                       <label>Description</label>
                       <label>(optional)</label>
@@ -174,6 +175,15 @@ const EditSideNav: React.FC<{
                         {errors.description}
                       </label>
                     )}
+                  </div>
+                  <div>
+                    <div className="flex">
+                      <p className="font-bold text-2xl">
+                        Warranties and images
+                      </p>
+                      <p className="text-blue-500 underline">(optional)</p>
+                    </div>
+                    <ImageDropzone />
                   </div>
                   <div className="flex m-5 ml-0 items-center">
                     <Field

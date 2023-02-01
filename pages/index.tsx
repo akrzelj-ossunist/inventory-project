@@ -2,61 +2,70 @@ import DataTable from "@/components/DataTable";
 import Header from "@/components/Header";
 import { GetServerSideProps } from "next";
 import { useQueryStates, queryTypes } from "next-usequerystate";
-import { useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import DeleteTask from "../components/DeleteTask";
 import Modal from "@/components/Modal";
-import Navigation from "@/components/Navigation";
 import EditSideNav from "@/components/EditSideNav";
-import Activity from "@/components/Activity";
+import { disablePageScroll, enablePageScroll } from "scroll-lock";
 
 export interface Params {
   search: string;
   status: string;
   all: string;
-  page: string;
 }
+
+const useClickOutside = (ref: any, callback: any) => {
+  const handleClick = (e: any) => {
+    if (ref.current && ref.current.contains(e.target)) {
+      callback();
+    }
+  };
+  useEffect(() => {
+    document.addEventListener("click", handleClick);
+    return () => {
+      document.removeEventListener("click", handleClick);
+    };
+  });
+};
 
 const Home: React.FC<{ params: Params }> = ({ params: initialParams }) => {
   const [modal, setModal] = useState(false);
   const [sideNavView, setSideNavView] = useState(false);
+  const ref = useRef();
+  useClickOutside(ref, () => setSideNavView(false));
   const [params, setParams] = useQueryStates(
     {
       search: queryTypes.string.withDefault(initialParams.search),
       status: queryTypes.string.withDefault(initialParams.status),
       all: queryTypes.string.withDefault(initialParams.all),
-      page: queryTypes.string.withDefault(initialParams.page),
     },
     { history: "replace" }
   );
   return (
-    <div className="w-full flex-col flex items-center">
-      <Navigation setParams={setParams} params={params} />
-      {params.page === "Items" && (
-        <div className="w-[70%] mt-[5%]">
-          {sideNavView && (
+    <div
+      className={`w-full flex-col flex items-center ${
+        sideNavView ? disablePageScroll() : enablePageScroll()
+      }`}
+    >
+      <div className="w-[70%] mt-[5%]">
+        {sideNavView && (
+          <div ref={ref}>
             <Modal>
               <></>
             </Modal>
-          )}
-          <EditSideNav
-            setSideNavView={setSideNavView}
-            sideNavView={sideNavView}
-          />
-          {modal && (
-            <Modal>
-              <DeleteTask setModal={setModal} />
-            </Modal>
-          )}
-          <Header setParams={setParams} params={params} />
-          <DataTable setModal={setModal} setSideNavView={setSideNavView} />
-        </div>
-      )}
-      <div className="w-[50%] mt-[5%]">
-        {params.page === "Activity" && (
-          <>
-            <Activity />
-          </>
+          </div>
         )}
+        <EditSideNav
+          setSideNavView={setSideNavView}
+          sideNavView={sideNavView}
+        />
+        {modal && (
+          <Modal>
+            <DeleteTask setModal={setModal} />
+          </Modal>
+        )}
+        <Header setParams={setParams} params={params} />
+        <DataTable setModal={setModal} setSideNavView={setSideNavView} />
       </div>
     </div>
   );
@@ -69,7 +78,6 @@ export const getServerSideProps: GetServerSideProps = async (context) => {
     search: context.query.search || null,
     status: context.query.status || null,
     all: context.query.all || null,
-    page: context.query.page || "Items",
   };
   return {
     props: { params },
