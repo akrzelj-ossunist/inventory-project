@@ -44,7 +44,11 @@ const Home: React.FC<{ params: Params }> = ({ params: initialParams }) => {
   return (
     <div
       className={`w-full flex-col flex items-center ${
-        sideNavView ? disablePageScroll() : enablePageScroll()
+        typeof document !== "undefined"
+          ? sideNavView
+            ? disablePageScroll()
+            : enablePageScroll()
+          : null
       }`}
     >
       <div className="w-[70%] mt-[5%]">
