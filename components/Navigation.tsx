@@ -14,12 +14,12 @@ const Navigation: React.FC<{
       <div className="flex sticky z-20 top-0 left-0 w-full justify-between bg-white shadow-lg items-center pl-2">
         <div className="flex items-center ml-4">
           <Link className="flex" href="/">
-            <Image src={grid} alt="grid" className="w-5 h-5" />
-            <p className="font-bold text-3xl ml-2 mt-[-6px] mr-10">Inventory</p>
+            <Image src={grid} alt="grid" className="w-5 h-5 mt-1" />
+            <p className="font-bold text-3xl ml-2 mt-[-6px] mr-5">Inventory</p>
           </Link>
           <CustomSelect
-            width={"250px"}
-            height="25px"
+            width={"200px"}
+            className="mt-2"
             name={null}
             errors={null}
             options={[

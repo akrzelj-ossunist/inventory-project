@@ -1,5 +1,5 @@
 import Activity from "@/components/Activity";
-import Users from "@/components/User";
+import Users from "@/components/Users";
 import { useRouter } from "next/router";
 
 const page: React.FC = () => {

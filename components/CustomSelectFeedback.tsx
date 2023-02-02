@@ -59,7 +59,7 @@ export const CustomSelect: React.FC<any> = ({
       container: (provided: any) => ({
         ...provided,
         display: "flex",
-        height: rest.height || "50px",
+        height: "auto",
         width: "100% !important",
         borderWidth: "1px !important",
         borderRadius: "8px !important",
@@ -234,9 +234,7 @@ export const CustomSelect: React.FC<any> = ({
   return (
     <div
       className={`${
-        variant === "ghostBig" || variant === "ghostSmall"
-          ? ""
-          : "w-full h-[35px] border-b-2 border-gray-400 rounded-b-md z-30"
+        variant === "ghostBig" || variant === "ghostSmall" ? "" : "w-auto"
       }  ${isFocused ? "isFocused" : ""} ${errors ? "isInvalid" : ""}`}
       onFocus={() => setIsFocused(true)}
       onBlur={() => setIsFocused(false)}
