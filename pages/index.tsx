@@ -5,8 +5,9 @@ import { useQueryStates, queryTypes } from "next-usequerystate";
 import { useEffect, useRef, useState } from "react";
 import DeleteTask from "../components/DeleteTask";
 import Modal from "@/components/Modal";
-import EditSideNav from "@/components/EditSideNav";
+import SideNav from "@/components/SideNav";
 import { disablePageScroll, enablePageScroll } from "scroll-lock";
+import EditForm from "../components/EditForm";
 
 export interface Params {
   search: string;
@@ -31,7 +32,7 @@ const useClickOutside = (ref: any, callback: any) => {
 const Home: React.FC<{ params: Params }> = ({ params: initialParams }) => {
   const [modal, setModal] = useState(false);
   const [sideNavView, setSideNavView] = useState(false);
-  const ref = useRef();
+  const ref = useRef<HTMLDivElement | null>(null);
   useClickOutside(ref, () => setSideNavView(false));
   const [params, setParams] = useQueryStates(
     {
@@ -45,7 +46,7 @@ const Home: React.FC<{ params: Params }> = ({ params: initialParams }) => {
     <div
       className={`w-full flex-col flex items-center ${
         typeof document !== "undefined"
-          ? sideNavView
+          ? sideNavView || modal
             ? disablePageScroll()
             : enablePageScroll()
           : null
@@ -59,10 +60,9 @@ const Home: React.FC<{ params: Params }> = ({ params: initialParams }) => {
             </Modal>
           </div>
         )}
-        <EditSideNav
-          setSideNavView={setSideNavView}
-          sideNavView={sideNavView}
-        />
+        <SideNav sideNavView={sideNavView}>
+          <EditForm setSideNavView={setSideNavView} />
+        </SideNav>
         {modal && (
           <Modal>
             <DeleteTask setModal={setModal} />

@@ -43,7 +43,7 @@ const DataTable: React.FC<{
     rows,
 
     prepareRow,
-  } = useTable({ columns, data });
+  } = useTable({ columns: columns as any, data });
 
   return (
     <table {...getTableProps()} className="w-full mt-5">

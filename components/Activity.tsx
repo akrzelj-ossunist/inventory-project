@@ -11,7 +11,7 @@ const Activity: React.FC = () => {
   let arr = new Array();
   for (let i = 0; i < 12; i++) arr.push(i + 1);
   const [addNewActivity, setAddNewActivity] = useState(false);
-  console.log(addNewActivity);
+  const [index, setIndex] = useState(0);
   return (
     <div className="flex justify-center">
       <div className="w-[50%] mt-[5%]">
@@ -27,7 +27,7 @@ const Activity: React.FC = () => {
           />
         </div>
         <p className="font-semibold my-5 mt-10">Activities: 43</p>
-        {arr.map(() => {
+        {arr.map((el) => {
           return (
             <div className="flex justify-between items-centerm my-5">
               <div className="flex items-center">
@@ -49,16 +49,19 @@ const Activity: React.FC = () => {
               </div>
               <div className={`flex`}>
                 <Image
-                  onClick={() =>
-                    setAddNewActivity(addNewActivity ? false : true)
-                  }
+                  onClick={() => {
+                    setIndex(el);
+                    if (index === el)
+                      setAddNewActivity(addNewActivity ? false : true);
+                    else setAddNewActivity(true);
+                  }}
                   src={more}
                   alt="more"
                   className="w-6 h-6 cursor-pointer"
                 />
                 <div
                   className={`mt-5 rounded-lg shadow-xl flex pr-10 pl-5 pt-4 pb-14 absolute ml-5 ${
-                    !addNewActivity && "hidden"
+                    el === index ? (addNewActivity ? "" : "hidden") : "hidden"
                   }`}
                 >
                   <Image src={add} alt="add" className="w-4 h-4 mt-1 mr-2" />

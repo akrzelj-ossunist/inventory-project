@@ -3,16 +3,20 @@ import user from "../public/user.png";
 import grid from "../public/grid.png";
 import { CustomSelect } from "./CustomSelectFeedback";
 import Link from "next/link";
+import { useRouter } from "next/router";
 
 const Navigation: React.FC<{
   children: JSX.Element;
 }> = ({ children }) => {
+  const route = useRouter();
   return (
     <>
       <div className="flex sticky z-20 top-0 left-0 w-full justify-between bg-white shadow-lg items-center pl-2">
         <div className="flex items-center ml-4">
-          <Image src={grid} alt="grid" className="w-5 h-5" />
-          <p className="font-bold text-3xl ml-2 mt-[-6px]">Inventory</p>
+          <Link className="flex" href="/">
+            <Image src={grid} alt="grid" className="w-5 h-5" />
+            <p className="font-bold text-3xl ml-2 mt-[-6px] mr-10">Inventory</p>
+          </Link>
           <CustomSelect
             width={"250px"}
             height="25px"
@@ -30,31 +34,41 @@ const Navigation: React.FC<{
         <div className="flex items-center w-[40%] justify-evenly h-full">
           <Link
             href={`/`}
-            className={`p-2 py-4 font-medium text-xl cursor-pointer h-full`}
+            className={`p-2 py-4 font-medium text-xl cursor-pointer h-full ${
+              route.query.page === undefined && "border-b-4 border-gray-400"
+            }`}
           >
             Items
           </Link>
           <Link
             href={`/Activity`}
-            className={`p-2 py-4 font-medium text-xl cursor-pointer `}
+            className={`p-2 py-4 font-medium text-xl cursor-pointer ${
+              route.query.page === "Activity" && "border-b-4 border-gray-400"
+            }`}
           >
             Activity
           </Link>
           <Link
             href={`/Categories`}
-            className={`p-2 py-4 font-medium text-xl cursor-pointer`}
+            className={`p-2 py-4 font-medium text-xl cursor-pointer ${
+              route.query.page === "Categories" && "border-b-4 border-gray-400"
+            }`}
           >
             Categories
           </Link>
           <Link
             href={`/Users`}
-            className={`p-2 py-4 font-medium text-xl cursor-pointer `}
+            className={`p-2 py-4 font-medium text-xl cursor-pointer ${
+              route.query.page === "Users" && "border-b-4 border-gray-400"
+            }`}
           >
             Users
           </Link>
           <Link
             href={`/Location`}
-            className={`p-2 py-4 font-medium text-xl cursor-pointer`}
+            className={`p-2 py-4 font-medium text-xl cursor-pointer ${
+              route.query.page === "Location" && "border-b-4 border-gray-400"
+            }`}
           >
             Location
           </Link>

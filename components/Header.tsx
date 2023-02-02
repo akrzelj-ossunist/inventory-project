@@ -2,7 +2,6 @@ import Image from "next/image";
 import search from "../public/search.png";
 import { useEffect, useState } from "react";
 import { Params } from "../pages/index";
-import Select from "./Select";
 import { useDebounce } from "usehooks-ts";
 import { CustomSelect } from "./CustomSelectFeedback";
 
@@ -10,8 +9,8 @@ const Header: React.FC<{
   setParams: (value: Params) => void;
   params: Params;
 }> = ({ setParams, params }) => {
-  const [status, setStatus] = useState("");
-  const [all, setAll] = useState("");
+  const [status, setStatus] = useState(params.status);
+  const [all, setAll] = useState(params.all);
   const debounceValue = useDebounce(params.search, 500);
   useEffect(() => {
     setParams({ ...params, status: status, all: all });
@@ -34,7 +33,7 @@ const Header: React.FC<{
           />
         </div>
         <div className="flex">
-          <div className="w-[200px]">
+          <div className="w-[200px] mb-5">
             <CustomSelect
               className={"shadow-lg"}
               defaultValue={params.status}
@@ -50,7 +49,7 @@ const Header: React.FC<{
               }}
             />
           </div>
-          <div className="w-[200px] ml-10">
+          <div className="w-[200px] ml-10 mb-5">
             <CustomSelect
               className={"shadow-lg"}
               defaultValue={params.all}
